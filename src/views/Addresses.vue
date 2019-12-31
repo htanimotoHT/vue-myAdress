@@ -23,8 +23,11 @@
             <td class="text-xs-left">
               <span>
                 <router-link :to="{ name: 'address_edit', params: {address_id: props.item.id }}">
-                  <v-icon small class="mr-2">編集</v-icon>
+                  <v-icon small class="mr-2">edit</v-icon>
                 </router-link>
+              </span>
+              <span>
+                <v-icon small class="mr-2" @click="deleteConfirm(props.item.id)">delete</v-icon>
               </span>
             </td>
           </template>
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   created () {
     this.addresses = this.$store.state.addresses
@@ -50,6 +54,14 @@ export default {
       ],
       addresses: []
     }
+  },
+  methods: {
+    deleteConfirm(id) {
+      if(confirm('削除してよろしいですか？')) {
+        this.deleteAddress({ id })
+      }
+    },
+    ...mapActions(['deleteAddress'])
   }
 }
 </script>
